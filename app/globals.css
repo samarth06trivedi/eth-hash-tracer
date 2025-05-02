@@ -1,0 +1,465 @@
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-rgb: 1, 4, 0;
+  --primary-color: #00d1ff;
+  --primary-gradient-start: #00d1ff;
+  --primary-gradient-end: #3a7bd5;
+
+  /* shadcn variables */
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 84% 4.9%;
+  --primary: 221.2 83.2% 53.3%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --accent: 210 40% 96.1%;
+  --accent-foreground: 222.2 47.4% 11.2%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 221.2 83.2% 53.3%;
+  --radius: 0.5rem;
+
+  /* Chart colors */
+  --chart-1: 215 100% 50%;
+  --chart-2: 180 100% 50%;
+  --chart-3: 120 100% 50%;
+  --chart-4: 60 100% 50%;
+  --chart-5: 0 100% 50%;
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  background-color: #010400; /* Dark background */
+  color: #ffffff; /* White text for visibility */
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Navigation Bar */
+nav {
+  width: 100%;
+  background-color: #000000;
+  padding: 1rem;
+  box-shadow: 0 0 15px #00d1ff;
+  position: sticky; /* Keep the navigation bar fixed at the top */
+  top: 0;
+  z-index: 1000;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto; /* Center the navigation bar */
+}
+
+.logo {
+  color: #00d1ff;
+  font-size: 1.8rem; /* Adjusted for visibility */
+  font-weight: bold;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.logo:hover {
+  text-shadow: 0 0 15px #00d1ff, 0 0 30px #00d1ff, 0 0 45px #00d1ff; /* Glowing effect */
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 1.2rem;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #00d1ff;
+}
+
+#connectWalletButton {
+  background: linear-gradient(90deg, #00d1ff, #3a7bd5);
+  color: #ffffff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#connectWalletButton:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(58, 123, 213, 0.5);
+}
+
+/* Dropdown Menu */
+.dropdown {
+  position: relative;
+}
+
+.dropbtn {
+  color: #ffffff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #010400;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  margin-top: 0.5rem;
+  z-index: 1;
+  border-radius: 5px;
+}
+
+.dropdown-content a {
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  display: block;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
+.dropdown-content a:hover {
+  background: linear-gradient(90deg, #00d1ff, #3a7bd5);
+  color: #ffffff;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Header */
+header {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+header h1 {
+  font-size: 2rem;
+  color: #00d1ff;
+}
+
+header p {
+  font-size: 1.2rem;
+  color: #ffffff;
+}
+
+/* Input Container */
+.input-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+input[type="text"] {
+  width: 50%;
+  padding: 0.8rem;
+  border-radius: 5px;
+  border: 1px solid #3a7bd5;
+  background-color: #000000;
+  color: #ffffff;
+  font-size: 1rem;
+}
+
+input[type="text"]::placeholder {
+  color: #7a7a7a;
+}
+
+button#fetchNFTsButton,
+button#fetch_facts_button,
+button#get_portfolio_button {
+  background: linear-gradient(90deg, #00d1ff, #3a7bd5);
+  color: #ffffff;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+button#fetchNFTsButton:hover,
+button#fetch_facts_button:hover,
+button#get_portfolio_button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(58, 123, 213, 0.5);
+}
+
+/* NFT Display */
+#nftDisplay {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* 5 NFTs per row */
+  gap: 1.5rem;
+  margin: 2rem;
+  justify-items: center;
+}
+
+#nftDisplay .nft-item {
+  width: 180px; /* Fixed width */
+  height: 260px; /* Fixed height */
+  background-color: #000000;
+  border: 1px solid #3a7bd5;
+  border-radius: 10px;
+  padding: 0.5rem;
+  text-align: center;
+  color: #ffffff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#nftDisplay .nft-item img {
+  width: 100%; /* Fit the container */
+  height: 140px; /* Fixed height for images */
+  object-fit: cover;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+}
+
+#nftDisplay .nft-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(58, 123, 213, 0.5);
+}
+
+/* Pagination Buttons */
+#pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem 0;
+}
+
+#pagination button {
+  background: linear-gradient(90deg, #00d1ff, #3a7bd5);
+  color: #ffffff;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin: 0 1rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#pagination button:disabled {
+  background: #7a7a7a;
+  cursor: not-allowed;
+}
+
+#loadingIndicator {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #00d1ff;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 1024px) {
+  .nav-container {
+    flex-wrap: wrap;
+  }
+
+  #nftDisplay {
+    grid-template-columns: repeat(3, 1fr); /* 3 NFTs per row on tablets */
+  }
+
+  input[type="text"] {
+    width: 70%; /* Adjust input field width */
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #nftDisplay {
+    grid-template-columns: repeat(2, 1fr); /* 2 NFTs per row on mobile */
+  }
+
+  .logo {
+    font-size: 1.5rem; /* Adjust logo size for smaller screens */
+  }
+
+  input[type="text"] {
+    width: 90%; /* Make input field responsive */
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .nav-container {
+    flex-direction: column; /* Stack navigation items */
+    align-items: center;
+  }
+
+  #nftDisplay {
+    grid-template-columns: 1fr; /* 1 NFT per row on very small screens */
+  }
+
+  input[type="text"] {
+    width: 100%; /* Full-width input field */
+  }
+
+  .logo {
+    font-size: 1.2rem;
+  }
+}
+
+#totalValue {
+  display: none;
+  font-size: 1.5rem; /* You can change the value here */
+  color: #00d1ff; /* Blue color */
+  text-align: center;
+  font-weight: bold; /* Makes the text bold */
+}
+
+/* EVM Facts Styles */
+#factsDisplay {
+  margin-top: 20px;
+  text-align: left;
+  padding: 20px;
+  background-color: #010400;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+#factsList {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.fact {
+  background-color: #010400;
+  padding: 12px;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
+
+.fact span.title {
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.fact span.value {
+  color: #00d1ff;
+}
+
+/* Portfolio Styles */
+#netWorthDisplay {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 1.5rem;
+  color: #00d1ff;
+  font-weight: bold;
+}
+
+.blockchain-item {
+  border: 0.35px solid #ffffff;
+  margin-top: 15px;
+  padding: 15px;
+  background: #000000;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.blockchain-title {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #00d1ff;
+}
+
+.blockchain-details p {
+  color: #cccccc;
+  margin: 5px 0;
+}
+
+#visualizeButton {
+  background: linear-gradient(90deg, #00d1ff, #3a7bd5);
+  color: #ffffff;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: none; /* Initially hidden */
+}
+
+#visualizeButton:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(58, 123, 213, 0.5);
+}
+
+#visualizeButtonContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+/* Graph Styles */
+#graph {
+  margin-top: 22px;
+  width: calc(100% - 42px);
+  height: 550px;
+  margin-top: 30px;
+  overflow: hidden;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 11px;
+}
+
+/* Chart Styles */
+#chart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+}
+
+#legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin: 5px 15px;
+  transition: transform 0.3s, background-color 0.3s;
+}
+
+.legend-color {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
