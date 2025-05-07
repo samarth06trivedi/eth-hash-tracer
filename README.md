@@ -1,3 +1,4 @@
+# visit the live website at: https://eth-hash-tracer.vercel.app/
 # ETH HASH TRACER
 
 HASH TRACER is a comprehensive Ethereum blockchain explorer and portfolio tracker that allows users to visualize transactions, track NFT holdings, and monitor their portfolio across multiple blockchains.
