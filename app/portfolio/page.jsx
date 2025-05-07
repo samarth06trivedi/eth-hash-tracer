@@ -18,51 +18,45 @@ export default function Portfolio() {
       alert("Please enter a valid Ethereum address.")
       return
     }
-
+  
     setLoading(true)
     setShowNetWorth(false)
     setShowVisualizeButton(false)
-
+  
     const blockchainBreakdown = document.getElementById("blockchainBreakdown")
     if (blockchainBreakdown) {
       blockchainBreakdown.innerHTML = ""
     }
-
+  
     try {
-      const apiUrl = `https://openapiv1.coinstats.app/wallet/balances?address=${ethAddress}&networks=all`
-      const response = await fetch(apiUrl, {
-        method: "GET",
+      const response = await fetch("/api/portfolio", {
+        method: "POST",
         headers: {
-          "X-API-KEY": "zv8R+W/5jzIXxS4CFWfYSfBDasMjEMxw+00Su0RMhEE=",
-          accept: "application/json",
+          "Content-Type": "application/json",
         },
+        body: JSON.stringify({ ethAddress }),
       })
-
+  
       if (!response.ok) {
         throw new Error(`Error: ${response.statusText}`)
       }
-
-      const data = await response.json()
+  
+      const { data } = await response.json()
       setLoading(false)
-
+  
       if (data.length > 0) {
         let totalNetWorth = 0
         const blockchains = []
-
-        // Loop through each blockchain
+  
         data.forEach((blockchain) => {
           let blockchainNetWorth = 0
-
-          // Loop through each token on the blockchain
+  
           blockchain.balances.forEach((balance) => {
             const tokenAmount = balance.amount
             const tokenPrice = balance.price
-
-            // Calculate the value of each token and add to blockchain's net worth
             blockchainNetWorth += tokenAmount * tokenPrice
           })
-
-          // Only add blockchain to the list if worth >= $1
+  
           if (blockchainNetWorth >= 1) {
             blockchains.push({
               blockchain: blockchain.blockchain,
@@ -72,26 +66,23 @@ export default function Portfolio() {
             totalNetWorth += blockchainNetWorth
           }
         })
-
-        // Sort blockchains by net worth in descending order
+  
         blockchains.sort((a, b) => b.netWorth - a.netWorth)
-
+  
         setFilteredBlockchains(blockchains)
         setTotalNetWorth(totalNetWorth)
         setShowNetWorth(true)
         setShowVisualizeButton(true)
-
-        // Display the blockchain breakdown list
         displayBlockchainBreakdown(blockchains)
-
-        // Save to localStorage for visualization
         localStorage.setItem("portfolioData", JSON.stringify(blockchains))
       }
     } catch (error) {
       console.error("Error fetching portfolio data:", error)
       setLoading(false)
+      alert("Failed to load portfolio data.")
     }
   }
+  
 
   const displayBlockchainBreakdown = (blockchains) => {
     const blockchainBreakdown = document.getElementById("blockchainBreakdown")

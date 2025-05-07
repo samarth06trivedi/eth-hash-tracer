@@ -14,70 +14,41 @@ export default function EVMFacts() {
       alert("Please enter a valid Ethereum address.")
       return
     }
-
+  
     setLoading(true)
     setShowFacts(false)
-
+  
     try {
-      const response = await fetch("https://api.dune.com/api/v1/query/4528879/execute", {
+      const response = await fetch("/api/evm-facts", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-dune-api-key": "dSEwVB2vKEW3Sp7sDkx33GsWBBDLzWD0",
         },
-        body: JSON.stringify({
-          query_parameters: { address: ethAddress },
-        }),
+        body: JSON.stringify({ ethAddress }),
       })
-
+  
       if (!response.ok) {
-        throw new Error("Failed to fetch data from Dune")
+        throw new Error("Failed to fetch data from backend")
       }
-
-      const postData = await response.json()
-      const executionId = postData.execution_id
-
-      let isFinished = false
-      let resultData = null
-
-      while (!isFinished) {
-        const resultResponse = await fetch(`https://api.dune.com/api/v1/execution/${executionId}/results`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "x-dune-api-key": "dSEwVB2vKEW3Sp7sDkx33GsWBBDLzWD0",
-          },
-        })
-
-        if (!resultResponse.ok) {
-          throw new Error("Failed to fetch results from Dune")
-        }
-
-        const resultDataResponse = await resultResponse.json()
-
-        if (resultDataResponse.is_execution_finished) {
-          isFinished = true
-          resultData = resultDataResponse.result.rows
-        } else {
-          await new Promise((resolve) => setTimeout(resolve, 2000))
-        }
-      }
-
+  
+      const { data } = await response.json()
+  
       setLoading(false)
-
-      if (resultData && resultData.length > 0) {
-        setFacts(resultData[0])
+  
+      if (data && data.length > 0) {
+        setFacts(data[0])
         setShowFacts(true)
-        displayFactsLetterByLetter(resultData[0])
+        displayFactsLetterByLetter(data[0])
       } else {
         alert("No data found for this Ethereum address.")
       }
     } catch (error) {
-      console.error("Error fetching data from Dune:", error)
+      console.error("Error fetching data:", error)
       setLoading(false)
       alert("Error fetching data. Please try again.")
     }
   }
+  
 
   const formatToIST = (timestamp) => {
     const date = new Date(timestamp)

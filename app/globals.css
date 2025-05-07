@@ -190,6 +190,7 @@ input[type="text"]::placeholder {
   color: #7a7a7a;
 }
 
+button#search-button,
 button#fetchNFTsButton,
 button#fetch_facts_button,
 button#get_portfolio_button {

@@ -22,6 +22,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/page.jsx", "components/portfolio-chart.jsx", "components/theme-provider.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/page.jsx", "components/portfolio-chart.jsx", "components/theme-provider.jsx", "app/api/page/route.js"],
   "exclude": ["node_modules"]
 }

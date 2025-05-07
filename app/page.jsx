@@ -13,53 +13,21 @@ export default function Home() {
     try {
       setLoading(true)
 
-      const response = await fetch("https://api.dune.com/api/v1/query/4617489/execute", {
+      const response = await fetch("/api/dune", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-dune-api-key": "4TS6eluto3kXBz3rJMMEyhbl0vRONnQ5",
         },
-        body: JSON.stringify({
-          query_parameters: { eth_address: address },
-        }),
+        body: JSON.stringify({ ethAddress: address }),
       })
 
       if (!response.ok) {
-        const errorBody = await response.json()
-        console.error("Error from Dune API:", errorBody)
-        throw new Error("Failed to fetch data from Dune")
+        throw new Error("Failed to fetch from backend")
       }
 
-      const postData = await response.json()
-      const executionId = postData.execution_id
-      let isFinished = false
-      let resultData = null
+      const data = await response.json()
+      const rows = data.rows
 
-      while (!isFinished) {
-        const resultResponse = await fetch(`https://api.dune.com/api/v1/execution/${executionId}/results`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "x-dune-api-key": "4TS6eluto3kXBz3rJMMEyhbl0vRONnQ5",
-          },
-        })
-
-        if (!resultResponse.ok) {
-          throw new Error("Failed to fetch results from Dune")
-        }
-
-        const resultDataResponse = await resultResponse.json()
-        console.log("Dune API GET Result:", resultDataResponse)
-
-        if (resultDataResponse.is_execution_finished) {
-          isFinished = true
-          resultData = resultDataResponse.result.rows
-        } else {
-          await new Promise((resolve) => setTimeout(resolve, 2000))
-        }
-      }
-
-      const rows = resultData
       const nodes = []
       const links = []
       const addressSet = new Set()
@@ -90,8 +58,8 @@ export default function Home() {
         graphRef.current.style.border = "1px solid #ddd"
       }
     } catch (error) {
-      console.error("Error fetching data:", error)
-      alert("Failed to fetch data. Please try again.")
+      console.error("Error:", error)
+      alert("Something went wrong. Try again.")
     } finally {
       setLoading(false)
     }
@@ -116,18 +84,11 @@ export default function Home() {
     const height = graphDiv.clientHeight || 550
 
     const svg = d3.select(graphDiv).append("svg").attr("width", width).attr("height", height)
-
     const zoomGroup = svg.append("g")
 
     const simulation = d3
       .forceSimulation(data.nodes)
-      .force(
-        "link",
-        d3
-          .forceLink(data.links)
-          .id((d) => d.id)
-          .distance(150),
-      )
+      .force("link", d3.forceLink(data.links).id((d) => d.id).distance(150))
       .force("charge", d3.forceManyBody().strength(-800))
       .force("center", d3.forceCenter(width / 2, height / 2))
 
@@ -163,14 +124,8 @@ export default function Home() {
       .attr("dx", 15)
 
     simulation.on("tick", () => {
-      link
-        .attr("x1", (d) => d.source.x)
-        .attr("y1", (d) => d.source.y)
-        .attr("x2", (d) => d.target.x)
-        .attr("y2", (d) => d.target.y)
-
+      link.attr("x1", (d) => d.source.x).attr("y1", (d) => d.source.y).attr("x2", (d) => d.target.x).attr("y2", (d) => d.target.y)
       node.attr("cx", (d) => d.x).attr("cy", (d) => d.y)
-
       label.attr("x", (d) => d.x).attr("y", (d) => d.y)
     })
 
@@ -218,21 +173,14 @@ export default function Home() {
         <div className="input-container">
           <input
             type="text"
-            id="ethAddressInput"
             placeholder="Enter Ethereum Address"
             value={ethAddress}
             onChange={(e) => setEthAddress(e.target.value)}
           />
-          <button id="fetch_facts_button" onClick={updateGraph}>
-            Search
-          </button>
+          <button id="search-button" onClick={updateGraph}>Search</button>
         </div>
-        {loading && (
-          <div id="loading" style={{ display: "block", textAlign: "center" }}>
-            Loading...
-          </div>
-        )}
-        <div id="graph" ref={graphRef} style={{ height: "550px" }}></div>
+        {loading && <div style={{ textAlign: "center" }}>Loading...</div>}
+        <div ref={graphRef} style={{ height: "550px" }}></div>
       </div>
     </>
   )

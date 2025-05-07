@@ -18,40 +18,37 @@ export default function NFTHoldings() {
       alert("Please enter a valid Ethereum address.")
       return
     }
-
+  
     setLoading(true)
     setNftProjects([])
     setTotalValue(0)
     setShowTotalValue(false)
     setShowPagination(false)
-
+  
     try {
-      const apiUrl = `https://openapiv1.coinstats.app/nft/wallet/${ethAddress}/assets?page=15&limit=100`
-      const response = await fetch(apiUrl, {
-        method: "GET",
+      const response = await fetch("/api/nft-holdings", {
+        method: "POST",
         headers: {
-          "X-API-KEY": "zv8R+W/5jzIXxS4CFWfYSfBDasMjEMxw+00Su0RMhEE=",
-          accept: "application/json",
+          "Content-Type": "application/json",
         },
+        body: JSON.stringify({ ethAddress }),
       })
-
+  
       if (!response.ok) {
         throw new Error(`Error: ${response.statusText}`)
       }
-
-      const data = await response.json()
+  
+      const { data } = await response.json()
       setLoading(false)
-
+  
       if (data.data && data.data.length > 0) {
-        // Sort NFTs by floorPrice in descending order
         const sortedProjects = [...data.data].sort((a, b) => b.floorPrice - a.floorPrice)
         setNftProjects(sortedProjects)
-
-        // Calculate total value
+  
         const total = sortedProjects.reduce((sum, project) => {
           return sum + project.floorPrice * project.assetsCount
         }, 0)
-
+  
         setTotalValue(total)
         setShowTotalValue(true)
         setShowPagination(true)
@@ -60,8 +57,10 @@ export default function NFTHoldings() {
     } catch (error) {
       console.error("Error fetching NFT data:", error)
       setLoading(false)
+      alert("Failed to load NFT data.")
     }
   }
+  
 
   const displayNFTPage = (page) => {
     const nftDisplay = document.getElementById("nftDisplay")
